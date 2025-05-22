@@ -11,9 +11,7 @@ import Datarouter from './routes/Datarouter.js'
 dotenv.config();
 const app = express();
 app.use(cors({
-    origin: process.env.NODE_ENV === 'production' 
-        ? 'https://your-frontend-domain.vercel.app'  // Replace with your actual frontend domain
-        : 'http://localhost:5173',
+    origin:'http://localhost:5173',
     credentials: true
 }));
 app.use(express.json());
