@@ -50,11 +50,43 @@ export const login= async (req, res) => {
         {
             expiresIn:"10h"
         });
-        res.cookie('jwt',token);
-        return res.json({success:true,message:"User logged in successfully",user:finduser,token:token});
+        
+        // Set cookie with token
+        res.cookie('token', token, {
+            httpOnly: true,
+            secure: process.env.NODE_ENV === 'production',
+            sameSite: 'strict',
+            maxAge: 10 * 60 * 60 * 1000 // 10 hours in milliseconds
+        });
+        
+        return res.json({success:true,message:"User logged in successfully",user:finduser});
     
     }
     catch(err){
         res.status(500).json({success:false,message: "Error logging in"});
+    }
+}
+
+export const logout= (req,res)=>{
+    try{
+        res.cookie('token', "");
+        return res.json({success:true,message:"logout sucessfull"})
+    }
+    catch(err)
+    {
+        console.log(err)
+        return res.json({success:false,message:"Logout issues"})
+        
+    }
+}
+
+export const profile= async (req,res)=>{
+    try{
+        const userdetails=await UserModel.findOne({email:req.user.email})
+        return res.json(userdetails)
+    }
+    catch(err)
+    {
+        return res.json({success:false,message:"Failed to track data"})
     }
 }

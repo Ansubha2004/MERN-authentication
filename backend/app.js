@@ -4,12 +4,16 @@ import dotenv from 'dotenv';
 import './models/config.js';
 import Authrouter from './routes/Authrouter.js';
 import cookieParser from 'cookie-parser';
+import Datarouter from './routes/Datarouter.js'
 
 
 
 dotenv.config();
 const app = express();
-app.use(cors());
+app.use(cors({
+    origin: 'http://localhost:5173', // Your frontend URL
+    credentials: true
+}));
 app.use(express.json());
 app.use(express.urlencoded({extended:true}));
 app.use(cookieParser());
@@ -24,7 +28,7 @@ app.get('/test',(req,res)=>{
 
 
 app.use('/auth',Authrouter);
-
+app.use('/profile',Datarouter);
 
 
 app.listen(process.env.PORT,()=>{

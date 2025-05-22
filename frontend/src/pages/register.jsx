@@ -42,7 +42,7 @@ function register() {
             const {success,message,error}=response.data;
             if(success)
             {
-                successmessage("registration post successful",message);
+                successmessage(message);
                 setTimeout(()=>{
                     navigate("/login")
                 },2000)
@@ -50,7 +50,7 @@ function register() {
             }
             if(error)
             {
-                errormessage("Error while register post",error);
+                errormessage(error);
                 console.log("Error while register post",error)
             }
             console.log(response.data);
